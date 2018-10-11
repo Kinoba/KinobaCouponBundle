@@ -75,20 +75,33 @@ kinoba_coupon:
 
 Create a new code in the database thank to `CouponProvider`:
 `create($amount = 1, $type = Coupon::TYPE_FIXED, $maxNumber = 1, $expiredAt = null, $mask = null)`
-$type: TYPE_FIXED for currency discount or TYPE_PERCENTAGE for %
-$maxNumber: max number of generated coupons after the coupon became invalid
-$expiredAt: End of validity for a coupon
-$mask: Create a coupon with a new mask (not defaultMask)
+
+`$type`: TYPE_FIXED for currency discount or TYPE_PERCENTAGE for %
+
+`$maxNumber`: max number of generated coupons after the coupon became invalid
+
+`$expiredAt`: End of validity for a coupon
+
+`$mask`: Create a coupon with a new mask (not defaultMask)
+
+---
 
 If you want to check if a code exists and is usable:
 `check($code)`
+
 Returns `Coupon` object if valid or `false` if not
+
+---
 
 If you want to check if user tries to use a code for second time you can call `isSecondUsageAttempt` and pass
 Coupon object and CouponUserInterface as an argument.
 Returns a boolean value
 
+---
+
 Apply a code:
 `apply($code, $user, $bill = null)`
-$bill: if you want to connect a generated coupon with a payment/bill/offer
+
+`$bill`: if you want to connect a generated coupon with a payment/bill/offer
+
 Apply will check if the code is usable
