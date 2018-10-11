@@ -1,0 +1,18 @@
+services:
+    Kinoba\CouponBundle\CouponProvider:
+        public: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '%kinoba_coupon.default_mask%'
+            - '%kinoba_coupon.characters%'
+
+
+    # kinoba_coupon.repository.coupon:
+    #     public: false
+    #     class: Kinoba\CouponBundle\Repository\CouponRepository
+    #     factory: ['@doctrine.orm.entity_manager', getRepository]
+    #     arguments: [ KinobaCouponBundle:Coupon ]
+    Kinoba\CouponBundle\Repository\:
+        resource: '../../Repository/*'
+        autowire: true
+        tags: ['doctrine.repository_service']
