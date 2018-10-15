@@ -164,7 +164,7 @@ abstract class Coupon implements CouponInterface
      */
     public function isMaxNumberReach()
     {
-        return $this->maxNumber ? ($this->maxNumber <= count($this->generatedCoupons)) : false;
+        return $this->maxNumber !== null ? ($this->maxNumber <= count($this->generatedCoupons)) : false;
     }
 
     /**
