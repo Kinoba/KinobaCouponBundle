@@ -1,0 +1,5 @@
+form:
+    coupon:
+        types:
+            0: Pourcentage
+            1: Fixe

@@ -53,6 +53,39 @@ class AppKernel extends Kernel
 
 ### Step 3: Configure your app
 
+You have to add 2 entites : Coupon and GeneratedCoupon to your project
+```php
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Kinoba\CouponBundle\Model\Coupon as BaseCoupon;
+
+/**
+ * @ORM\Table(name="coupons")
+ * @ORM\Entity
+ */
+class Coupon extends BaseCoupon
+{
+}
+```
+
+```php
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Kinoba\CouponBundle\Model\GeneratedCoupon as BaseGeneratedCoupon;
+
+/**
+ * @ORM\Table(name="generated_coupons")
+ * @ORM\Entity
+ */
+class GeneratedCoupon extends BaseGeneratedCoupon
+{
+}
+
+```
+
+
 You need to map your entities with our interfaces.
 In `doctrine.yaml` or `config.yml`, add :
 ```yaml
@@ -63,11 +96,12 @@ doctrine:
             Kinoba\CouponBundle\Model\BillableInterface: App\Entity\Offer
 ```
 
-You could add a new file `kinoba_coupon.yaml` with 2 parameters in it
+You could add a new file `kinoba_coupon.yaml` with 3 parameters in it
 ```yaml
 kinoba_coupon:
     default_mask: KIN*****
     characters: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ
+    coupon_class: App\Entity\Coupon
 ```
 
 

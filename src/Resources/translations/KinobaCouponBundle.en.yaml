@@ -1,0 +1,5 @@
+form:
+    coupon:
+        types:
+            0: Percentage
+            1: Fixed

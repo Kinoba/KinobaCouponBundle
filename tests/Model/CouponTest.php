@@ -1,9 +1,9 @@
 <?php
 
-namespace Kinoba\CouponBundle\Tests\Entity;
+namespace Kinoba\CouponBundle\Tests\Model;
 
-use Kinoba\CouponBundle\Entity\Coupon;
-use Kinoba\CouponBundle\Entity\GeneratedCoupon;
+use Kinoba\CouponBundle\Model\Coupon;
+use Kinoba\CouponBundle\Model\GeneratedCoupon;
 use PHPUnit\Framework\TestCase;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -12,7 +12,8 @@ class CouponTest extends TestCase
     public function testConstruct()
     {
         $date = new \DateTime();
-        $coupon = new Coupon(10, '12345', Coupon::TYPE_FIXED, 100, $date);
+        // $coupon = new Coupon(10, '12345', Coupon::TYPE_FIXED, 100, $date);
+        $coupon = $this->getMockForAbstractClass(Coupon::class);
 
         $this->assertEquals($date, $coupon->getExpiredAt());
         $this->assertEquals(10, $coupon->getAmount());

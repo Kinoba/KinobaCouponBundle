@@ -18,6 +18,7 @@ class Configuration implements ConfigurationInterface
         $rootNode->children()
             ->scalarNode('default_mask')->defaultValue('*****')->end()
             ->scalarNode('characters')->defaultValue('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ')->end()
+            ->scalarNode('coupon_class')->isRequired()->cannotBeEmpty()->end()
         ;
 
         return $treeBuilder;

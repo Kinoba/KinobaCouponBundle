@@ -1,10 +1,8 @@
 <?php
 
-namespace Kinoba\CouponBundle\Entity;
+namespace Kinoba\CouponBundle\Model;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Eko\FeedBundle\Item\Writer\RoutedItemInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Kinoba\CouponBundle\Model\Base;
 use Kinoba\CouponBundle\Model\CouponUserInterface;
@@ -13,10 +11,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ORM\Table(name="generated_coupons")
- * @ORM\Entity
+ * @ORM\MappedSuperclass
  */
-class GeneratedCoupon
+abstract class GeneratedCoupon implements GeneratedCouponInterface
 {
     use Base\IdentifiableEntityTrait;
 
@@ -61,7 +58,7 @@ class GeneratedCoupon
     /**
      * Get the value of Coupon
      *
-     * @return Coupon
+     * @return CouponInterface
      */
     public function getCoupon()
     {
@@ -71,11 +68,11 @@ class GeneratedCoupon
     /**
      * Set the value of Coupon
      *
-     * @param Coupon coupon
+     * @param CouponInterface coupon
      *
      * @return self
      */
-    public function setCoupon(Coupon $coupon)
+    public function setCoupon(CouponInterface $coupon)
     {
         $this->coupon = $coupon;
 

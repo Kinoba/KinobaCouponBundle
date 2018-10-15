@@ -2,7 +2,13 @@
     "name" : "kinoba/coupon-bundle",
     "type": "symfony-bundle",
     "description": "Coupon bundle for Symfony",
-    "keywords": ["coupon", "code", "promo", "bundle", "symfony"],
+    "keywords": [
+        "coupon",
+        "code",
+        "promo",
+        "bundle",
+        "symfony"
+    ],
     "homepage": "https://github.com/Kinoba/KinobaCouponBundle",
     "license": "MIT",
     "prefer-stable": true,
@@ -13,16 +19,6 @@
             "homepage": "https://kinoba.fr"
         }
     ],
-    "autoload" : {
-        "psr-4": {
-            "Kinoba\\CouponBundle\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Kinoba\\CouponBundle\\Tests\\": "tests/"
-        }
-    },
     "require": {
         "php": ">=5.6",
         "doctrine/orm": "~2.5",
@@ -39,5 +35,18 @@
         "squizlabs/php_codesniffer": "3.*",
         "theseer/phpdox": "^0.11",
         "symfony/phpunit-bridge": "~3.4"
-    }
+    },
+    "autoload" : {
+        "psr-4": {
+            "Kinoba\\CouponBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Kinoba\\CouponBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+       "sort-packages": true
+   }
 }

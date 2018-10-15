@@ -1,20 +1,18 @@
 <?php
 
-namespace Kinoba\CouponBundle\Entity;
+namespace Kinoba\CouponBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Eko\FeedBundle\Item\Writer\RoutedItemInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Kinoba\CouponBundle\Model\Base;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ORM\Table(name="coupons")
- * @ORM\Entity(repositoryClass="Kinoba\CouponBundle\Repository\CouponRepository")
+ * @ORM\MappedSuperclass(repositoryClass="Kinoba\CouponBundle\Repository\CouponRepository")
  */
-class Coupon
+abstract class Coupon implements CouponInterface
 {
     use Base\IdentifiableEntityTrait;
     use Base\TimestampableEntityTrait;
@@ -72,8 +70,13 @@ class Coupon
      */
     protected $generatedCoupons;
 
-    public function __construct($amount, $code, $type = self::TYPE_FIXED, $maxNumber = 1, $expiredAt = null)
-    {
+    public function __construct(
+        $amount = null,
+        $code = null,
+        $type = self::TYPE_FIXED,
+        $maxNumber = null,
+        $expiredAt = null
+    ) {
         $this->amount = $amount;
         $this->code = $code;
         $this->type = $type;
@@ -205,7 +208,7 @@ class Coupon
      *
      * @return self
      */
-    public function setExpiredAt(\DateTime $expiredAt)
+    public function setExpiredAt(\DateTime $expiredAt = null)
     {
         $this->expiredAt = $expiredAt;
 
@@ -273,11 +276,11 @@ class Coupon
     /**
      * Set the value of Generated Coupons
      *
-     * @param GeneratedCoupon generatedCoupons
+     * @param GeneratedCouponInterface generatedCoupons
      *
      * @return self
      */
-    public function setGeneratedCoupons(GeneratedCoupon $generatedCoupons)
+    public function setGeneratedCoupons(GeneratedCouponInterface $generatedCoupons)
     {
         $this->generatedCoupons = $generatedCoupons;
 
@@ -287,10 +290,10 @@ class Coupon
     /**
     * Add generated coupon
     *
-    * @param GeneratedCoupon $generatedCoupon
+    * @param GeneratedCouponInterface $generatedCoupon
     * @return Coupon
     */
-    public function addGeneratedCoupon(GeneratedCoupon $generatedCoupon)
+    public function addGeneratedCoupon(GeneratedCouponInterface $generatedCoupon)
     {
         $generatedCoupon->setCoupon($this);
         $this->generatedCoupons[] = $generatedCoupon;
@@ -301,9 +304,9 @@ class Coupon
     /**
     * Remove generated coupon
     *
-    * @param GeneratedCoupon $generatedCoupon
+    * @param GeneratedCouponInterface $generatedCoupon
     */
-    public function removeGeneratedCoupon(GeneratedCoupon $generatedCoupon)
+    public function removeGeneratedCoupon(GeneratedCouponInterface $generatedCoupon)
     {
         $this->generatedCoupons->removeElement($generatedCoupon);
     }
@@ -333,5 +336,27 @@ class Coupon
     public function getDiscountedPrice(float $price) : float
     {
         return $price - $this->getDiscount($price);
+    }
+
+    /**
+     * Returns the string of value with % or €
+     * @return string
+     */
+    public function displayValue() : string
+    {
+        $type = '%';
+        if ($this->type === self::TYPE_FIXED) {
+            $type = '€';
+        }
+        return $this->amount . " $type";
+    }
+
+    /**
+     * Returns the number of generated coupons
+     * @return int
+     */
+    public function countGeneratedCoupons()
+    {
+        return count($this->generatedCoupons);
     }
 }
