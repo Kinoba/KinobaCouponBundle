@@ -88,9 +88,13 @@ class CouponProvider
     */
     public function check($code)
     {
-        $coupon = $this->getEntityRepository()->findOneByCode($code);
+        $coupon = $this->getEntityRepository()->findOneBy([
+            'code' => $code,
+            'active' => true,
+        ]);
+
         if ($coupon === null) {
-            throw new Exceptions\InvalidPromocodeException;
+            throw new Exceptions\InvalidCouponException;
         }
 
         if ($coupon->isExpired() || $coupon->isMaxNumberReach()) {
@@ -223,7 +227,6 @@ class CouponProvider
     private function getEntityRepository()
     {
         $metadata = $this->em->getClassMetadata($this->class);
-        // exit(dump($metadata->getName()));
         return $this->em->getRepository($metadata->getName());
     }
 }
