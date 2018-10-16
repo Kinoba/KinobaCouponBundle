@@ -12,20 +12,14 @@ class CouponTest extends TestCase
     public function testConstruct()
     {
         $date = new \DateTime();
-        // $coupon = new Coupon(10, '12345', Coupon::TYPE_FIXED, 100, $date);
         $coupon = $this->getMockForAbstractClass(Coupon::class);
-
-        $this->assertEquals($date, $coupon->getExpiredAt());
-        $this->assertEquals(10, $coupon->getAmount());
-        $this->assertEquals('12345', $coupon->getCode());
         $this->assertEquals(1, $coupon->getType());
-        $this->assertEquals(100, $coupon->getMaxNumber());
     }
 
     public function testCreatedAt()
     {
         $date = new \DateTime();
-        $coupon = new Coupon(10, 'AAAAA');
+        $coupon = $this->getMockForAbstractClass(Coupon::class);
         $this->assertNull($coupon->getCreatedAt());
         $coupon->setCreatedAt($date);
 
@@ -35,7 +29,7 @@ class CouponTest extends TestCase
     public function testUpdatedAt()
     {
         $date = new \DateTime();
-        $coupon = new Coupon(10, 'AAAAA');
+        $coupon = $this->getMockForAbstractClass(Coupon::class);
         $this->assertNull($coupon->getUpdatedAt());
         $coupon->setUpdatedAt($date);
 
@@ -45,7 +39,7 @@ class CouponTest extends TestCase
     public function testIsExpired()
     {
         $date = new \DateTime('-1 day');
-        $coupon = new Coupon(10, 'AAAAA');
+        $coupon = $this->getMockForAbstractClass(Coupon::class);
         $coupon->setExpiredAt($date);
 
         $this->assertTrue($coupon->isExpired());
@@ -54,7 +48,7 @@ class CouponTest extends TestCase
     public function testIsNotExpired()
     {
         $date = new \DateTime('1 day');
-        $coupon = new Coupon(10, 'AAAAA');
+        $coupon = $this->getMockForAbstractClass(Coupon::class);
         $coupon->setExpiredAt($date);
 
         $this->assertFalse($coupon->isExpired());
@@ -62,17 +56,18 @@ class CouponTest extends TestCase
 
     public function testIsNotExpiredWithExpiredAtNull()
     {
-        $coupon = new Coupon(10, 'AAAAA');
+        $coupon = $this->getMockForAbstractClass(Coupon::class);
 
         $this->assertFalse($coupon->isExpired());
     }
 
     public function testIsMaxNumberReach()
     {
-        $coupon = new Coupon(10, 'AAAAA', Coupon::TYPE_PERCENTAGE, 2);
+        $coupon = $this->getMockForAbstractClass(Coupon::class);
+        $coupon->setMaxNumber(2);
 
         for ($i = 0; $i < 2; $i++) {
-            $gc = new GeneratedCoupon();
+            $gc = $this->getMockForAbstractClass(GeneratedCoupon::class);
             $coupon->addGeneratedCoupon($gc);
         }
 
@@ -81,10 +76,11 @@ class CouponTest extends TestCase
 
     public function testIsMaxNumberNotReach()
     {
-        $coupon = new Coupon(10, 'AAAAA', Coupon::TYPE_PERCENTAGE, 10);
+        $coupon = $this->getMockForAbstractClass(Coupon::class);
+        $coupon->setMaxNumber(10);
 
         for ($i = 0; $i < 5; $i++) {
-            $gc = new GeneratedCoupon();
+            $gc = $this->getMockForAbstractClass(GeneratedCoupon::class);
             $coupon->addGeneratedCoupon($gc);
         }
 
@@ -93,42 +89,55 @@ class CouponTest extends TestCase
 
     public function testGetDiscountWithPercentage()
     {
-        $coupon = new Coupon(10, 'AAAAA', Coupon::TYPE_PERCENTAGE);
+        $coupon = $this->getMockForAbstractClass(Coupon::class);
+        $coupon->setType(Coupon::TYPE_PERCENTAGE);
+        $coupon->setAmount(10);
 
         $this->assertEquals(1, $coupon->getDiscount(10));
     }
 
     public function testGetDiscountedPriceWithPercentage()
     {
-        $coupon = new Coupon(10, 'AAAAA', Coupon::TYPE_PERCENTAGE);
+        $coupon = $this->getMockForAbstractClass(Coupon::class);
+        $coupon->setType(Coupon::TYPE_PERCENTAGE);
+        $coupon->setAmount(10);
+
 
         $this->assertEquals(9, $coupon->getDiscountedPrice(10));
     }
 
     public function testGetDiscountWithFixed()
     {
-        $coupon = new Coupon(10, 'AAAAA', Coupon::TYPE_FIXED);
+        $coupon = $this->getMockForAbstractClass(Coupon::class);
+        $coupon->setType(Coupon::TYPE_FIXED);
+        $coupon->setAmount(10);
 
         $this->assertEquals(10, $coupon->getDiscount(15));
     }
 
     public function testGetDiscountedPriceWithFixed()
     {
-        $coupon = new Coupon(10, 'AAAAA', Coupon::TYPE_FIXED);
+        $coupon = $this->getMockForAbstractClass(Coupon::class);
+        $coupon->setType(Coupon::TYPE_FIXED);
+        $coupon->setAmount(10);
 
         $this->assertEquals(5, $coupon->getDiscountedPrice(15));
     }
 
     public function testGetDiscountWithFixedTooHigh()
     {
-        $coupon = new Coupon(10, 'AAAAA', Coupon::TYPE_FIXED);
+        $coupon = $this->getMockForAbstractClass(Coupon::class);
+        $coupon->setType(Coupon::TYPE_FIXED);
+        $coupon->setAmount(10);
 
         $this->assertEquals(5, $coupon->getDiscount(5));
     }
 
     public function testGetDiscountedPriceWithFixedTooHigh()
     {
-        $coupon = new Coupon(10, 'AAAAA', Coupon::TYPE_FIXED);
+        $coupon = $this->getMockForAbstractClass(Coupon::class);
+        $coupon->setType(Coupon::TYPE_FIXED);
+        $coupon->setAmount(10);
 
         $this->assertEquals(0, $coupon->getDiscountedPrice(5));
     }
