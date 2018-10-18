@@ -5,6 +5,7 @@ namespace Kinoba\CouponBundle;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Kinoba\CouponBundle\Model\CouponInterface;
+use Kinoba\CouponBundle\Model\Coupon;
 use Kinoba\CouponBundle\Exceptions;
 use Kinoba\CouponBundle\Model\CouponUserInterface;
 
@@ -161,11 +162,11 @@ class CouponProvider
     /**
     * Check if user is trying to apply code again.
     *
-    * @param Coupon $coupon
+    * @param CouponInterface $coupon
     *
     * @return bool
     */
-    public function isSecondUsageAttempt(Coupon $coupon, CouponUserInterface $user)
+    public function isSecondUsageAttempt(CouponInterface $coupon, CouponUserInterface $user)
     {
         return $this->findByIdAndByUser($coupon, $user) ? true : false;
     }

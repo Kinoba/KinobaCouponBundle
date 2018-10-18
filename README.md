@@ -102,6 +102,7 @@ kinoba_coupon:
     default_mask: KIN*****
     characters: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ
     coupon_class: App\Entity\Coupon
+    generated_coupon_class: App\Entity\GeneratedCoupon
 ```
 
 
