@@ -23,5 +23,6 @@ class KinobaCouponExtension extends Extension
         $container->setParameter('kinoba_coupon.default_mask', $config['default_mask']);
         $container->setParameter('kinoba_coupon.characters', $config['characters']);
         $container->setParameter('kinoba_coupon.coupon_class', $config['coupon_class']);
+        $container->setParameter('kinoba_coupon.generated_coupon_class', $config['generated_coupon_class']);
     }
 }

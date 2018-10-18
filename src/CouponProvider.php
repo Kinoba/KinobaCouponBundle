@@ -4,8 +4,6 @@ namespace Kinoba\CouponBundle;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Kinoba\CouponBundle\Model\Coupon;
-use Kinoba\CouponBundle\Model\GeneratedCoupon;
 use Kinoba\CouponBundle\Model\CouponInterface;
 use Kinoba\CouponBundle\Exceptions;
 use Kinoba\CouponBundle\Model\CouponUserInterface;
@@ -35,17 +33,23 @@ class CouponProvider
     /**
     * @var string
     */
-    private $class;
+    private $couponClass;
+
+    /**
+    * @var string
+    */
+    private $generatedCouponClass;
 
     /**
     * @param EntityManagerInterface $em
     */
-    public function __construct(EntityManagerInterface $em, $defaultMask, $characters, $class)
+    public function __construct(EntityManagerInterface $em, $defaultMask, $characters, $couponClass, $gcClass)
     {
         $this->em = $em;
         $this->mask = $defaultMask;
         $this->characters = $characters;
-        $this->class = $class;
+        $this->couponClass = $couponClass;
+        $this->generatedCouponClass = $gcClass;
 
         // Finds all generated codes
         $this->codes = $this->findAllCodes();
@@ -70,7 +74,7 @@ class CouponProvider
             $code = $this->generate();
         }
 
-        $coupon = new Coupon($amount, $code, $type, $maxNumber, $expiredAt);
+        $coupon = new $this->couponClass($amount, $code, $type, $maxNumber, $expiredAt);
 
         $this->em->persist($coupon);
         $this->em->flush();
@@ -119,7 +123,7 @@ class CouponProvider
                 throw new Exceptions\AlreadyUsedException;
             }
             // Add GeneratedCoupon to user
-            $generatedCoupon = new GeneratedCoupon($user, $bill);
+            $generatedCoupon = new $this->generatedCouponClass($user, $bill);
             $coupon->addGeneratedCoupon($generatedCoupon);
 
             $this->em->flush();
@@ -226,7 +230,7 @@ class CouponProvider
     */
     private function getEntityRepository()
     {
-        $metadata = $this->em->getClassMetadata($this->class);
+        $metadata = $this->em->getClassMetadata($this->couponClass);
         return $this->em->getRepository($metadata->getName());
     }
 }

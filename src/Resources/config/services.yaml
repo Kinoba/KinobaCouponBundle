@@ -6,6 +6,7 @@ services:
             - '%kinoba_coupon.default_mask%'
             - '%kinoba_coupon.characters%'
             - '%kinoba_coupon.coupon_class%'
+            - '%kinoba_coupon.generated_coupon_class%'
 
     Kinoba\CouponBundle\Form\CouponType:
         arguments:
