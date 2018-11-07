@@ -9,7 +9,7 @@ Applications that use Symfony Flex
 Open a command console, enter your project directory and execute:
 
 ```console
-$ composer require <package-name>
+$ composer require kinoba/coupon-bundle
 ```
 
 Applications that don't use Symfony Flex
