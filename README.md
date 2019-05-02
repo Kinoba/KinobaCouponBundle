@@ -105,6 +105,16 @@ kinoba_coupon:
     generated_coupon_class: App\Entity\GeneratedCoupon
 ```
 
+This bundle uses `stof/doctrine-extensions-bundle` for the timestamps `createdAt` and `updatedAt`, so you need 
+to configure this package in the file `stof_doctrine_extensions.yaml` :
+```yaml
+stof_doctrine_extensions:
+    default_locale: %locale%
+    orm:
+        default:
+            timestampable: true
+```
+
 
 ### Step 4: Usage
 
