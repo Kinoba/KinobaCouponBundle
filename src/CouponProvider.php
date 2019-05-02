@@ -76,6 +76,8 @@ class CouponProvider
         }
 
         $coupon = new $this->couponClass($amount, $code, $type, $maxNumber, $expiredAt);
+        $coupon->setCreatedAt(new \DateTime());
+        $coupon->setUpdatedAt(new \DateTime());
 
         $this->em->persist($coupon);
         $this->em->flush();
