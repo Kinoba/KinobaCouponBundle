@@ -51,9 +51,6 @@ class CouponProvider
         $this->characters = $characters;
         $this->couponClass = $couponClass;
         $this->generatedCouponClass = $gcClass;
-
-        // Finds all generated codes
-        $this->codes = $this->findAllCodes();
     }
 
     /**
@@ -223,6 +220,11 @@ class CouponProvider
     */
     private function validate($new)
     {
+        // Finds all generated codes
+        if (empty($this->codes)) {
+            $this->codes = $this->findAllCodes();
+        }
+        
         return !in_array($new, $this->codes);
     }
 
